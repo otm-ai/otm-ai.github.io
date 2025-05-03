@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>회원가입 완료</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .success-container {
+      background: #fff;
+      padding: 40px 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      width: 400px;
+      text-align: center;
+    }
+    .success-container h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .success-container p {
+      font-size: 16px;
+      margin-bottom: 30px;
+      color: #555;
+    }
+    .success-container button {
+      width: 100%;
+      padding: 14px;
+      background-color: #2575fc;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .success-container button:hover {
+      background-color: #1a5ee6;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="success-container">
+    <h2>회원가입 완료</h2>
+    <p>환영합니다! 회원가입이 성공적으로 완료되었습니다.</p>
+
+    <button onclick="goToLogin()">로그인 하러 가기</button>
+  </div>
+
+  <script>
+    function goToLogin() {
+      window.location.href = "login.html";
+    }
+  </script>
+
+</body>
+</html>
+

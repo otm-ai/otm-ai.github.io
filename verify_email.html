@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>이메일 인증</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .verify-container {
+      background: #fff;
+      padding: 40px 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      width: 400px;
+      text-align: center;
+    }
+    .verify-container h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .verify-container p {
+      font-size: 16px;
+      margin-bottom: 30px;
+      color: #555;
+    }
+    .verify-container input[type="text"] {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    .verify-container button {
+      width: 100%;
+      padding: 14px;
+      background-color: #2575fc;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .verify-container button:hover {
+      background-color: #1a5ee6;
+    }
+    .small-text {
+      font-size: 14px;
+      margin-top: 20px;
+      color: #666;
+    }
+    .small-text a {
+      color: #2575fc;
+      text-decoration: none;
+    }
+    .small-text a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="verify-container">
+    <h2>이메일 인증</h2>
+    <p>이메일로 전송된 인증 코드를 입력해주세요.</p>
+
+    <input type="text" id="verificationCode" placeholder="인증 코드 입력">
+
+    <button onclick="verifyCode()">인증하기</button>
+
+    <div class="small-text">
+      인증 메일을 받지 못하셨나요? <a href="#" onclick="resendEmail()">재전송</a>
+    </div>
+  </div>
+
+  <script>
+    function verifyCode() {
+      const code = document.getElementById("verificationCode").value.trim();
+
+      if (!code) {
+        alert("인증 코드를 입력하세요.");
+        return;
+      }
+
+      // 실제 서버와의 통신 없이 모의 인증
+      if (code === "123456") {
+        alert("이메일 인증이 완료되었습니다!");
+        window.location.href = "signup_success.html"; // 가입 완료 화면으로 이동
+      } else {
+        alert("잘못된 인증 코드입니다. 다시 시도해주세요.");
+      }
+    }
+
+    function resendEmail() {
+      alert("인증 메일을 재전송했습니다. 메일함을 확인해주세요.");
+    }
+  </script>
+
+</body>
+</html>

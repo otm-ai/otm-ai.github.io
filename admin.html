@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>관리자 페이지 - 캐드 명령어 검색기</title>
+  <script src="common.js"></script>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    .admin-header h1 {
+      font-size: 24px;
+      color: #333;
+    }
+    .admin-header button {
+      padding: 10px 20px;
+      background-color: #dc3545;
+      border: none;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .admin-header button:hover {
+      background-color: #c82333;
+    }
+    .admin-functions {
+      margin-bottom: 30px;
+    }
+    .admin-functions button {
+      display: block;
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 12px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .admin-functions button:hover {
+      background-color: #0056b3;
+    }
+    .word-list {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .word-list h2 {
+      margin-top: 0;
+      color: #555;
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+    .word-list ul {
+      list-style: none;
+      padding: 0;
+    }
+    .word-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 15px;
+      cursor: pointer;
+    }
+    .word-list li:hover {
+      background: #f1f1f1;
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-header">
+    <h1>관리자 페이지</h1>
+    <button onclick="logout()">로그아웃</button>
+  </div>
+
+  <div class="admin-functions">
+    <button onclick="addWord()">단어 추가</button>
+  </div>
+
+  <div class="word-list">
+    <h2>등록된 단어 목록</h2>
+    <ul id="wordList"></ul>
+  </div>
+
+  <script>
+    window.onload = function() {
+      checkLogin();
+      const role = getUserRole();
+      if (role !== 'admin') {
+        alert("관리자만 접근할 수 있습니다.");
+        window.location.href = "/index.html";
+      }
+      renderWordList();
+    }
+
+    function renderWordList() {
+      const wordList = document.getElementById('wordList');
+      wordList.innerHTML = '';
+
+      let words = localStorage.getItem('words');
+      if (!words) {
+        words = {}; // localStorage에 아무것도 없으면 빈 객체로 초기화
+        localStorage.setItem('words', JSON.stringify(words));
+      } else {
+        words = JSON.parse(words);
+      }
+
+      const entries = Object.entries(words).sort(([a], [b]) => a.localeCompare(b, 'ko-KR'));
+
+      entries.forEach(([word, meaning]) => {
+        const li = document.createElement('li');
+        li.textContent = `${word} : ${meaning}`;
+        li.addEventListener('click', function() {
+          handleWordClick(word, meaning);
+        });
+        wordList.appendChild(li);
+      });
+    }
+
+    function handleWordClick(word, meaning) {
+      const action = prompt(`'${word}'를 선택했습니다.\n[1] 수정하기\n[2] 삭제하기\n취소하려면 다른 키 입력`);
+
+      if (action === '1') {
+        const newMeaning = prompt(`'${word}'의 새 뜻을 입력하세요:`, meaning);
+        if (newMeaning) {
+          let words = JSON.parse(localStorage.getItem('words'));
+          words[word] = newMeaning;
+          localStorage.setItem('words', JSON.stringify(words));
+          alert(`'${word}'가 수정되었습니다.`);
+          renderWordList();
+        }
+      } else if (action === '2') {
+        if (confirm(`'${word}'를 삭제하시겠습니까?`)) {
+          let words = JSON.parse(localStorage.getItem('words'));
+          delete words[word];
+          localStorage.setItem('words', JSON.stringify(words));
+          alert(`'${word}'가 삭제되었습니다.`);
+          renderWordList();
+        }
+      }
+    }
+
+    function addWord() {
+      const word = prompt("추가할 단어를 입력하세요:");
+      if (!word || word.trim() === "") {
+        alert("단어를 입력해주세요.");
+        return;
+      }
+      const meaning = prompt("해당 단어의 뜻을 입력하세요:");
+      if (!meaning || meaning.trim() === "") {
+        alert("뜻을 입력해주세요.");
+        return;
+      }
+
+      let words = localStorage.getItem('words');
+      if (!words) {
+        words = {};
+      } else {
+        words = JSON.parse(words);
+      }
+
+      if (words[word]) {
+        alert("이미 존재하는 단어입니다.");
+        return;
+      }
+
+      words[word] = meaning;
+      localStorage.setItem('words', JSON.stringify(words));
+      alert(`단어 '${word}'가 추가되었습니다.`);
+      renderWordList();
+    }
+  </script>
+</body>
+</html>

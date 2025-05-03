@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>로그인 - 캐드 명령어 검색기</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .login-container {
+      background: #fff;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 300px;
+      text-align: center;
+    }
+    .login-container h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .login-container input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 16px;
+    }
+    .login-container button {
+      width: 100%;
+      padding: 12px;
+      background-color: #2575fc;
+      border: none;
+      color: white;
+      font-size: 16px;
+      margin-top: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .login-container button:hover {
+      background-color: #1a5ddc;
+    }
+    .signup-link {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+    .signup-link a {
+      color: #2575fc;
+      text-decoration: none;
+    }
+    .signup-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <h2>로그인</h2>
+    <input type="text" id="loginId" placeholder="아이디">
+    <input type="password" id="loginPw" placeholder="비밀번호">
+    <button onclick="handleLogin()">로그인</button>
+
+    <div class="signup-link">
+      <a href="find_account.html">아이디/비밀번호 찾기</a> | <a href="signup.html">회원가입</a>
+    </div>
+    
+  </div>
+
+  <script>
+    let loginFailCount = 0; // 실패 횟수 저장
+
+  
+    function handleLogin() {
+      const id = document.getElementById("loginId").value.trim();
+      const pw = document.getElementById("loginPw").value.trim();
+
+      // 예시: 간단한 하드코딩된 로그인 검증
+      if (id === "admin" && pw === "1234") {
+        localStorage.setItem('isLoggedIn', 'true');
+        alert("로그인 성공!");
+        window.location.href = "index.html"; // 로그인 성공시 메인페이지로 이동
+      } else {
+        loginFailCount++;
+      alert(`로그인 실패 (${loginFailCount}회)`);
+
+      if (loginFailCount >= 5) {
+        if (confirm("로그인 실패 5회 이상! 아이디/비밀번호를 찾으시겠습니까?")) {
+          window.location.href = "find_account.html"; // 비밀번호 찾기 페이지로 이동
+        }
+      }
+      }
+    }
+  </script>
+
+  
+
+</body>
+</html>

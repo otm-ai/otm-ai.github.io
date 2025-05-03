@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>아이디/비밀번호 찾기</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .find-container {
+      background: #fff;
+      padding: 40px 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      width: 400px;
+      text-align: center;
+    }
+    .find-container h2 {
+      margin-bottom: 25px;
+      color: #333;
+    }
+    .find-container input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    .find-container button {
+      width: 100%;
+      padding: 14px;
+      background-color: #2575fc;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .find-container button:hover {
+      background-color: #1a5ee6;
+    }
+    .small-text {
+      font-size: 14px;
+      margin-top: 15px;
+      color: #666;
+    }
+    .small-text a {
+      color: #2575fc;
+      text-decoration: none;
+    }
+    .small-text a:hover {
+      text-decoration: underline;
+    }
+    #authSection {
+      display: none;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="find-container">
+    <h2>아이디/비밀번호 찾기</h2>
+
+    <div id="emailSection">
+      <input type="text" id="userEmail" placeholder="가입한 이메일 입력">
+      <button onclick="sendAuthCode()">인증 코드 전송</button>
+    </div>
+
+    <div id="authSection">
+      <input type="text" id="authCode" placeholder="인증 코드 입력">
+      <button onclick="verifyAuthCode()">인증하기</button>
+    </div>
+
+    <div class="small-text">
+      <a href="login.html">로그인 화면으로 돌아가기</a>
+    </div>
+  </div>
+
+  <script>
+    let generatedCode = "";
+
+    function sendAuthCode() {
+      const email = document.getElementById("userEmail").value.trim();
+      if (!email) {
+        alert("이메일을 입력해주세요.");
+        return;
+      }
+
+      // 간단한 이메일 형식 확인
+      if (!/\S+@\S+\.\S+/.test(email)) {
+        alert("올바른 이메일 형식을 입력해주세요.");
+        return;
+      }
+
+      // 인증 코드 생성 (000000~999999)
+      generatedCode = Math.floor(100000 + Math.random() * 900000).toString();
+      alert(`(모의) ${email}로 인증 코드 ${generatedCode}가 발송되었습니다.`);
+
+      document.getElementById("emailSection").style.display = "none";
+      document.getElementById("authSection").style.display = "block";
+    }
+
+    function verifyAuthCode() {
+      const inputCode = document.getElementById("authCode").value.trim();
+      if (inputCode === generatedCode) {
+        alert("인증 성공! 비밀번호 재설정 페이지로 이동합니다.");
+        window.location.href = "reset_password.html"; // 다음 단계: 비밀번호 재설정 페이지
+      } else {
+        alert("인증 코드가 올바르지 않습니다. 다시 확인해주세요.");
+      }
+    }
+  </script>
+
+</body>
+</html>
